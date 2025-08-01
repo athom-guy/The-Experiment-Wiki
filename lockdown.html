@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lockdown</title>
+    <style>
+        * {
+            
+            margin: 0;
+        }
+        html, body {
+            --body-bg: rgb(0,0,0);
+            --body-color: rgb(165, 155, 196);
+            background-color: rgb(0,0,0);
+            font-size: 1rem;
+            height: 100%;
+        }
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            display: flex;
+        }
+        .m-auto {
+            margin: auto;
+        }
+        .box {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            text-align: center;
+            border: .1rem solid rgba(85, 69, 135, .1);
+            padding: 2rem;
+            border-radius: 1rem;
+            color: rgb(85, 69, 135);
+            background-color: rgba(85, 69, 135, 0.1);
+        }
+        .box input {
+            background-color: var(--body-bg);
+            color: var(--body-color);
+            font-weight: 600;
+            border: .1rem solid rgba(85, 69, 135, .5);
+            text-align: center;
+            text-transform: uppercase;
+            padding: .5rem .5rem;
+            font-size: 1rem;
+            border-radius: .5rem;
+        }
+        .box input:focus {
+            outline: 0;
+        }
+        .box-2 {
+            display: flex;
+            gap: .5rem;
+        }
+        .box-2 > * {
+            border-radius: .5rem;
+            background-color: transparent;
+            flex: 1;
+            aspect-ratio: 1/1;
+        }
+    </style>
+</head>
+<body>
+    <div class="m-auto box">
+        <p>ENTER <b>KEY:</b></p>
+        <input type="text">
+        <div id="color-sequence" class="box-2">
+            <div id="1" class="box"></div>
+            <div id="2" class="box"></div>
+            <div id="3" class="box"></div>
+            <div id="4" class="box"></div>
+            <div id="5" class="box"></div>
+        </div>
+    </div>
+
+    <script>
+        let keys = {
+
+            '1KL': 'OOCWP',
+            '1KS': 'CCGPO',
+            '1ST': 'CWGOO',
+            '1PS': 'CCCGO',
+            '1KS': 'CCGPO',
+            '1TS': 'WPOCG',
+            '1YT': 'GOPCW',
+
+            '2KL': 'PGOWC',
+            '2KS': 'OOOOO',
+            '2PS': 'OPOWW',
+            '2ST': 'OPGWC',
+            '2TS': 'CCPCO',
+            '2YT': 'PCPPW', 
+
+            '3KL': 'GGGPC',
+            '3KS': 'GOPPC',
+            '3PS': 'WWCOP',
+            '3ST': 'WWOOO',
+            '3TS': 'GWPGG',
+            '3YT': 'GOWWC',
+            
+            '4KL': 'PWOCO',
+            '4KS': 'POOPC',
+            '4PS': 'COPGW',
+            '4ST': 'POGOP',
+            '4TS': 'OPGCO',
+            '4YT': 'CCGCC',
+
+            '5KL': 'GPWWC',
+            '5KS': 'GOGPC',
+            '5PS': 'WGPOC',
+            '5ST': 'GGWOO',
+            '5TS': 'GOOOC',
+            '5YT': 'OCOPG',
+
+        }
+
+        let colors = {
+            'O': '#EEA500', // Orange
+            'C': '#00FFFF', // Cyan
+            'W': '#CCCCCC', // White
+            'P': '#FF00FF', // Pink
+            'G': '#00AA00'  // Green
+        }
+
+        function convertKeyToColorSequence(key) {
+            let sequence = keys[key];
+            if (!sequence) {
+                return null; // Invalid key
+            }
+            return sequence.split('').map(color => colors[color]);
+        }
+        document.querySelector('input').addEventListener('click', function() {
+            this.value = '';
+        });
+        document.querySelector('input').addEventListener('input', function() {
+            let key = this.value.toUpperCase();
+            let colorSequence = convertKeyToColorSequence(key);
+            if (colorSequence) {
+                document.querySelectorAll('.box-2 > div').forEach((div, index) => {
+                    div.style.backgroundColor = colorSequence[index] || 'transparent';
+                });
+            } else {
+                document.querySelectorAll('.box-2 > div').forEach(div => {
+                    div.style.backgroundColor = 'transparent';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

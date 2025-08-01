@@ -61,9 +61,17 @@
         }
         .box-2 > * {
             border-radius: .5rem;
+            display: flex;
+            padding: 0;
+            align-items: center;
+            font-size: 2rem;
+            color: #000;
+            justify-content: center;
+            height: 5rem;
             background-color: transparent;
             flex: 1;
             aspect-ratio: 1/1;
+            position: relative;
         }
     </style>
 </head>
@@ -125,11 +133,18 @@
         }
 
         let colors = {
-            'O': '#EEA500', // Orange
             'C': '#00FFFF', // Cyan
-            'W': '#CCCCCC', // White
+            'O': '#EEA500', // Orange
             'P': '#FF00FF', // Pink
-            'G': '#00AA00'  // Green
+            'G': '#00AA00',  // Green
+            'W': '#CCCCCC', // White
+        }
+        let colorIndexes = {
+            'C': 1,
+            'O': 2,
+            'P': 3,
+            'G': 4,
+            'W': 5
         }
 
         function convertKeyToColorSequence(key) {
@@ -137,7 +152,8 @@
             if (!sequence) {
                 return null; // Invalid key
             }
-            return sequence.split('').map(color => colors[color]);
+            // needs to return the color and the index of the color in the array
+            return [sequence.split('').map(color => colors[color]), sequence.split('').map(color => colorIndexes[color])];
         }
         document.querySelector('input').addEventListener('click', function() {
             this.value = '';
@@ -147,11 +163,15 @@
             let colorSequence = convertKeyToColorSequence(key);
             if (colorSequence) {
                 document.querySelectorAll('.box-2 > div').forEach((div, index) => {
-                    div.style.backgroundColor = colorSequence[index] || 'transparent';
+                    div.style.backgroundColor = colorSequence[0][index] || 'transparent';
+                    div.textContent = colorSequence[1][index] || '';
+
+                    console.log(colorSequence)
                 });
             } else {
                 document.querySelectorAll('.box-2 > div').forEach(div => {
                     div.style.backgroundColor = 'transparent';
+                    div.textContent = '';
                 });
             }
         });
